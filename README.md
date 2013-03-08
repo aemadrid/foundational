@@ -1,6 +1,8 @@
 # Foundational
 
-Use [Foundational](https://github.com/aemadrid/foundational) to interface with with [FoundationDB](http://www.foundationdb.com/) [Ruby API](http://www.foundationdb.com/documentation/beta1/api-ruby.html) in a more pleasant, rubyesque way. It features syntactic sugar to do the most common things you'll want to do. Plus it also includes example implementations of FoundationDB persisted array and hashes.
+_Use [Foundational](https://github.com/aemadrid/foundational) to interface with [FoundationDB](http://www.foundationdb.com/) [Ruby API](http://www.foundationdb.com/documentation/beta1/api-ruby.html) in a more pleasant, rubyesque way._
+
+It features syntactic sugar to do the most common things you'll want to do. Plus it also includes example implementations of FoundationDB persisted array and hashes.
 
 ## Installation
 
@@ -82,13 +84,10 @@ hsh = Fd::Hash.new 'simple_hash'
 # => { 'a' => 1, 'b' => 'dos', 'c' => [3] }
 ```
 	
-### Notes
+### Conversion 
+FoundationDB only saves basic values (strings) so we are using several serializers to choose from: [MessagePack](http://msgpack.org/) _(default, fastest)_, [JSON](https://github.com/intridea/multi_json) _(slow)_ and [YAML](http://ruby-doc.org/stdlib-1.9.3/libdoc/yaml/rdoc/YAML.html) _(slowest)_. Strings are left untouched though. You can choose your converter but be careful because some don't translate symbols or complex Ruby objects (MessagePack, JSON). As always, you need to choose between speed and features.
 
-
-#### Conversion 
-FoundationDB only saves basic values (strings) so we are using several serializers to choose from: [MessagePack](http://msgpack.org/) (default, fastest), [YAML](http://ruby-doc.org/stdlib-1.9.3/libdoc/yaml/rdoc/YAML.html) and [JSON](https://github.com/intridea/multi_json) internally to convert to and from. Strings are left untouched though. You can choose your converter but be careful because some don't translate symbols or complex Ruby objects (MessagePack, JSON). As always, you need to choose between speed and features.
-
-#### Sub-Keyspaces
+### Sub-Keyspaces
 We are enforcing sub-keyspaces (namespaces for your tuple keys) inside Foundational (['Fd'] is the default keyspace) so if you want another set of keyspaces just set it like so:
 
 ```ruby
@@ -97,6 +96,8 @@ Fd.keyspace = %w{ Some Other Keyspace }
 
 #### The End
 Be excellent to each other. Party on, dudes!
+
+---
 
 
 ## Contributing
