@@ -130,12 +130,12 @@ describe Foundational::Array do
 
   describe 'options' do
     it 'should respect encoder_type selected' do
-      instance = klass.new 'test_option_set_array', converter_type: :yaml
-      instance.converter_type.should == :yaml
+      instance = klass.new 'test_option_set_array', encoder_type: :yaml
+      instance.encoder_type.should == :yaml
     end
     it 'should respect encoder_type selected' do
       instance = klass.new 'test_option_not_set_array'
-      instance.converter_type.should == Fd.converter_type
+      instance.encoder_type.should == Fd.encoder_type
     end
   end
 

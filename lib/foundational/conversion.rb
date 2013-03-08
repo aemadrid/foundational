@@ -18,17 +18,17 @@ module Foundational
     @encoder_type = value
   end
 
-  def encode_value(value, converter_type = encoder_type)
+  def encode_value(value, type = encoder_type)
     return value if value.is_a? String
-    encoding_mark + send("#{converter_type}_encode_value", value)
+    encoding_mark + send("#{type}_encode_value", value)
   end
 
   alias :enc :encode_value
 
-  def decode_value(string, converter_type = encoder_type)
+  def decode_value(string, type = encoder_type)
     return string unless string[0, encoding_mark.size] == encoding_mark
     value = string[encoding_mark.size..-1]
-    send "#{converter_type}_decode_value", value
+    send "#{type}_decode_value", value
   end
 
   alias :dec :decode_value

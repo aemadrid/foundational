@@ -7,7 +7,7 @@ module Foundational
 
     include Comparable
 
-    attr_reader :name, :multimap
+    attr_reader :name, :multimap, :options
 
     extend Forwardable
     def_delegators :@multimap,

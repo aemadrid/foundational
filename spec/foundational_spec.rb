@@ -26,7 +26,7 @@ describe Foundational do
       if RUBY_PLATFORM =~ /java/
         expect { Fd.tuple_unpack(keys_packed) }.to raise_error(RegexpError)
       else
-        it { Fd.tuple_unpack(keys_packed).should == keys }
+        Fd.tuple_unpack(keys_packed).should == keys
       end
     end
   end
