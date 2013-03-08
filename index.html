@@ -18,7 +18,7 @@
     <div class="wrapper">
       <header>
         <h1>Foundational</h1>
-        <p>Having fun with <a href="http://www.foundationdb.com/">FoundationDB</a>!</p>
+        <p>Use Foundational to interface with with FoundationDB Ruby API in a more pleasant, rubyesque way. </p>
         <p class="view"><a href="https://github.com/aemadrid/foundational">View the Project on GitHub <small>aemadrid/foundational</small></a></p>
         <ul>
           <li><a href="https://github.com/aemadrid/foundational/zipball/master">Download <strong>ZIP File</strong></a></li>
@@ -27,15 +27,11 @@
         </ul>
       </header>
       <section>
+        <h1>Foundational</h1>
 
-        <p>
-          Use <a href="https://github.com/aemadrid/foundational">Foundational</a> to interface with with 
-          <a href="http://www.foundationdb.com/">FoundationDB</a> 
-          <a href="http://www.foundationdb.com/documentation/beta1/api-ruby.html">Ruby API</a> in a more 
-          pleasant, rubyesque way. 
-          It features syntactic sugar to do the most common things you'll want to do. 
-          Plus it also includes example implementations of FoundationDB persisted array and hashes.
-        </p>
+<p><em>Use <a href="https://github.com/aemadrid/foundational">Foundational</a> to interface with <a href="http://www.foundationdb.com/">FoundationDB</a> <a href="http://www.foundationdb.com/documentation/beta1/api-ruby.html">Ruby API</a> in a more pleasant, rubyesque way.</em></p>
+
+<p>It features syntactic sugar to do the most common things you'll want to do. Plus it also includes example implementations of FoundationDB persisted array and hashes.</p>
 
 <h2>Installation</h2>
 
@@ -114,18 +110,22 @@
 <span class="c1"># =&gt; { 'a' =&gt; 1, 'b' =&gt; 'dos', 'c' =&gt; [3] }</span>
 </pre></div>
 
-<h3>Notes</h3>
+<h3>Conversion</h3>
 
-<p>FoundationDB only saves basic values (strings) so we are using <a href="http://msgpack.org/">MessagePack</a> internally to convert to and from. Strings are left untouched though. But MessagePack does not convert to/from symbols so don't try to use that either (Hash converts all keys into strings).</p>
+<p>FoundationDB only saves basic values (strings) so we are using several serializers to choose from: <a href="http://msgpack.org/">MessagePack</a> <em>(default, fastest)</em>, <a href="https://github.com/intridea/multi_json">JSON</a> <em>(slow)</em> and <a href="http://ruby-doc.org/stdlib-1.9.3/libdoc/yaml/rdoc/YAML.html">YAML</a> <em>(slowest)</em>. Strings are left untouched though. You can choose your converter but be careful because some don't translate symbols or complex Ruby objects (MessagePack, JSON). As always, you need to choose between speed and features.</p>
 
-<p>Also we are enforcing sub-keyspaces (namespaces for your tuple keys) inside Foundational (['Fd'] by default) so if you want another set of keyspaces just set it like so:</p>
+<h3>Sub-Keyspaces</h3>
+
+<p>We are enforcing sub-keyspaces (namespaces for your tuple keys) inside Foundational (['Fd'] is the default keyspace) so if you want another set of keyspaces just set it like so:</p>
 
 <div class="highlight"><pre><span class="no">Fd</span><span class="o">.</span><span class="n">keyspace</span> <span class="o">=</span> <span class="sx">%w{ Some Other Keyspace }</span>
 </pre></div>
 
-<p>So have fun playing with FoundationDB. I'm hoping to get some more time to add more data structures.</p>
+<h4>The End</h4>
 
-<h2>Contributing</h2>
+<p>Be excellent to each other. Party on, dudes!</p>
+
+<hr><h2>Contributing</h2>
 
 <ol>
 <li>Fork it</li>
