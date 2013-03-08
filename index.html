@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Foundational by aemadrid</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Foundational</h1>
+        <p>Use Foundational to interface with with FoundationDB Ruby API in a more pleasant, rubyesque way. </p>
+        <p class="view"><a href="https://github.com/aemadrid/foundational">View the Project on GitHub <small>aemadrid/foundational</small></a></p>
+        <ul>
+          <li><a href="https://github.com/aemadrid/foundational/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/aemadrid/foundational/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/aemadrid/foundational">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Foundational</h1>
+
+<p>Use <a href="https://github.com/aemadrid/foundational">Foundational</a> to interface with with <a href="http://www.foundationdb.com/">FoundationDB</a> <a href="http://www.foundationdb.com/documentation/beta1/api-ruby.html">Ruby API</a> in a more pleasant, rubyesque way. It features syntactic sugar to do the most common things you'll want to do. Plus it also includes example implementations of FoundationDB persisted array and hashes.</p>
+
+<h2>Installation</h2>
+
+<p>Add this line to your application's Gemfile:</p>
+
+<pre><code>gem 'foundational'
+</code></pre>
+
+<p>And then execute:</p>
+
+<pre><code>$ bundle
+</code></pre>
+
+<p>Or install it yourself as:</p>
+
+<pre><code>$ gem install foundational
+</code></pre>
+
+<h2>Usage</h2>
+
+<h3>Convenience Methods</h3>
+
+<p>Instead of:</p>
+
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'fdb'</span>
+<span class="no">FDB</span><span class="o">.</span><span class="n">api_version</span> <span class="mi">21</span>
+<span class="n">db</span> <span class="o">=</span> <span class="no">FDB</span><span class="o">.</span><span class="n">open</span>
+</pre></div>
+
+<p>Let's do this:</p>
+
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'foundational'</span>
+<span class="no">Fd</span><span class="o">.</span><span class="n">open</span>
+</pre></div>
+
+<p>And then you can access the db from everywhere:</p>
+
+<div class="highlight"><pre><span class="no">Fd</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">transact</span> <span class="k">do</span> <span class="o">|</span><span class="n">tr</span><span class="o">|</span>
+  <span class="n">tr</span><span class="o">[</span><span class="s1">'a'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'A'</span>
+  <span class="n">tr</span><span class="o">[</span><span class="s1">'b'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'B'</span>
+<span class="k">end</span>
+</pre></div>
+
+<p>Some tuples:</p>
+
+<div class="highlight"><pre><span class="ss">FDB</span><span class="p">:</span><span class="ss">:Tuple</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="ss">FDB</span><span class="p">:</span><span class="ss">:Tuple</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span><span class="p">))</span>
+<span class="c1"># becomes</span>
+<span class="no">Fd</span><span class="o">.</span><span class="n">tuple_unpack</span><span class="p">(</span><span class="no">Fd</span><span class="o">.</span><span class="n">tuple_pack</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="c1"># or even better</span>
+<span class="no">Fd</span><span class="o">.</span><span class="n">tu</span><span class="p">(</span><span class="no">Fd</span><span class="o">.</span><span class="n">tp</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
+
+<h3>Persisted Array</h3>
+
+<p>Let's say you want to turn your simple, one level Array into a FoundationDB persisted Array, then:</p>
+
+<div class="highlight"><pre><span class="n">ary</span> <span class="o">=</span> <span class="ss">Fd</span><span class="p">:</span><span class="ss">:Array</span><span class="o">.</span><span class="n">new</span> <span class="s1">'simple_array'</span>
+<span class="n">ary</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span>
+<span class="n">ary</span> <span class="o">&lt;&lt;</span> <span class="s1">'dos'</span>
+<span class="n">ary</span> <span class="o">&lt;&lt;</span> <span class="o">[</span><span class="mi">3</span><span class="o">]</span>
+<span class="c1"># some time later</span>
+<span class="n">ary</span> <span class="o">=</span> <span class="ss">Fd</span><span class="p">:</span><span class="ss">:Array</span><span class="o">.</span><span class="n">new</span> <span class="s1">'simple_array'</span>
+<span class="c1"># =&gt; [1, 'dos', [3]]</span>
+</pre></div>
+
+<h3>Persisted Hash</h3>
+
+<p>Very similar to what you can do with a FoundationDB persisted Hash:</p>
+
+<div class="highlight"><pre><span class="n">hsh</span> <span class="o">=</span> <span class="ss">Fd</span><span class="p">:</span><span class="ss">:Hash</span><span class="o">.</span><span class="n">new</span> <span class="s1">'simple_hash'</span>
+<span class="n">hsh</span><span class="o">[</span><span class="s1">'a'</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">hsh</span><span class="o">[</span><span class="s1">'b'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'dos'</span>
+<span class="n">hsh</span><span class="o">[</span><span class="s1">'c'</span><span class="o">]</span> <span class="o">=</span> <span class="o">[</span><span class="mi">3</span><span class="o">]</span>
+<span class="c1"># some time later</span>
+<span class="n">hsh</span> <span class="o">=</span> <span class="ss">Fd</span><span class="p">:</span><span class="ss">:Hash</span><span class="o">.</span><span class="n">new</span> <span class="s1">'simple_hash'</span>
+<span class="c1"># =&gt; { 'a' =&gt; 1, 'b' =&gt; 'dos', 'c' =&gt; [3] }</span>
+</pre></div>
+
+<h3>Notes</h3>
+
+<p>FoundationDB only saves basic values (strings) so we are using <a href="http://msgpack.org/">MessagePack</a> internally to convert to and from. Strings are left untouched though. But MessagePack does not convert to/from symbols so don't try to use that either (Hash converts all keys into strings).</p>
+
+<p>Also we are enforcing sub-keyspaces (namespaces for your tuple keys) inside Foundational (['Fd'] by default) so if you want another set of keyspaces just set it like so:</p>
+
+<div class="highlight"><pre><span class="no">Fd</span><span class="o">.</span><span class="n">keyspace</span> <span class="o">=</span> <span class="sx">%w{ Some Other Keyspace }</span>
+</pre></div>
+
+<p>So have fun playing with FoundationDB. I'm hoping to get some more time to add more data structures.</p>
+
+<h2>Contributing</h2>
+
+<ol>
+<li>Fork it</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/aemadrid">aemadrid</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
