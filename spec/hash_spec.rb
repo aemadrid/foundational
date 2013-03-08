@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'spec_helper'
 require 'foundational/hash'
 
 describe Foundational::Hash do
@@ -138,6 +138,17 @@ describe Foundational::Hash do
     it('false') { subject['6'].should == multimap['6'] }      # OK
     it('hash') { subject['7'].should == multimap['7'] }       # OK
     it('hash with symbols') { subject['8'].should_not == multimap['8'] } # MsgPack does not encode symbols
+  end
+
+  describe 'options' do
+    it 'should respect encoder_type selected' do
+      instance = klass.new 'test_option_set_hash', converter_type: :yaml
+      instance.converter_type.should == :yaml
+    end
+    it 'should respect encoder_type selected' do
+      instance = klass.new 'test_option_not_set_hash'
+      instance.converter_type.should == Fd.converter_type
+    end
   end
 
 end

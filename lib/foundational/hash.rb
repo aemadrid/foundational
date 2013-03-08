@@ -13,9 +13,14 @@ module Foundational
     def_delegators :@multimap,
                    :size, :count, :each, :empty?, :collect, :map, :keys, :values
 
-    def initialize(name)
+    def initialize(name, options = {})
       @name = name.to_s
+      @options = options
       load_multimap
+    end
+
+    def encoder_type
+      @options[:encoder_type] || Fd.encoder_type
     end
 
     def get(key)
@@ -102,12 +107,12 @@ module Foundational
     def load_value(kv)
       key   = Fd.tuple_unpack(kv.key).last
       value = kv.value
-      value = Fd.decode_value(value) if value[0, 1] == "\x01"
+      value = Fd.decode_value value, encoder_type
       @multimap[key] = value
     end
 
     def save_value(key, value)
-      value = Fd.encode_value(value) unless value.is_a?(String)
+      value = Fd.encode_value value, encoder_type
       tuple = Fd.tuple_pack name, key.to_s
       Fd.db.transact { |tr| tr.set tuple, value }
     end

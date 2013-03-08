@@ -18,7 +18,12 @@ Gem::Specification.new do |gem|
   gem.require_paths = %w{ lib }
 
   gem.add_dependency 'fdb', '~> 0.2.1'
-  gem.add_dependency 'msgpack', '~> 0.5.3'
+
+  if RUBY_PLATFORM =~ /java/
+    gem.add_development_dependency 'msgpack-jruby', '~> 1.3.2'
+  else
+    gem.add_development_dependency 'msgpack', '~> 0.5.3'
+  end
 
   gem.add_development_dependency 'rspec', '~> 2.8.0'
   gem.add_development_dependency 'simplecov', '~> 0.7.1'

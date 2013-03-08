@@ -84,15 +84,19 @@ hsh = Fd::Hash.new 'simple_hash'
 	
 ### Notes
 
-FoundationDB only saves basic values (strings) so we are using [MessagePack](http://msgpack.org/) internally to convert to and from. Strings are left untouched though. But MessagePack does not convert to/from symbols so don't try to use that either (Hash converts all keys into strings).
 
-Also we are enforcing sub-keyspaces (namespaces for your tuple keys) inside Foundational (['Fd'] by default) so if you want another set of keyspaces just set it like so:
+#### Conversion 
+FoundationDB only saves basic values (strings) so we are using several serializers to choose from: [MessagePack](http://msgpack.org/) (default, fastest), [YAML](http://ruby-doc.org/stdlib-1.9.3/libdoc/yaml/rdoc/YAML.html) and [JSON](https://github.com/intridea/multi_json) internally to convert to and from. Strings are left untouched though. You can choose your converter but be careful because some don't translate symbols or complex Ruby objects (MessagePack, JSON). As always, you need to choose between speed and features.
+
+#### Sub-Keyspaces
+We are enforcing sub-keyspaces (namespaces for your tuple keys) inside Foundational (['Fd'] is the default keyspace) so if you want another set of keyspaces just set it like so:
 
 ```ruby
 Fd.keyspace = %w{ Some Other Keyspace }
 ```
 
-So have fun playing with FoundationDB. I'm hoping to get some more time to add more data structures.
+#### The End
+Be excellent to each other. Party on, dudes!
 
 
 ## Contributing

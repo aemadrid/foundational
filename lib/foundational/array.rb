@@ -7,16 +7,21 @@ module Foundational
 
     include Comparable
 
-    attr_reader :name, :values
+    attr_reader :name, :values, :options
 
     extend Forwardable
     def_delegators :@values,
                    :size, :count, :each, :empty?, :index, :collect, :map, :sample, :shuffle, :uniq,
                    :first, :last
 
-    def initialize(name)
+    def initialize(name, options = {})
       @name = ::Array[name].flatten.map { |x| x.to_s }
+      @options = options
       load_values
+    end
+
+    def encoder_type
+      @options[:encoder_type] || Fd.encoder_type
     end
 
     def get(idx)
@@ -107,13 +112,12 @@ module Foundational
 
     def load_value(kv)
       idx   = Fd.tuple_unpack(kv.key).last.to_i
-      value = kv.value
-      value = Fd.decode_value(value) if value[0, 1] == "\x01"
+      value = Fd.decode_value kv.value, encoder_type
       @values[idx] = value
     end
 
     def save_value(idx, value)
-      value = Fd.encode_value(value) unless value.is_a?(String)
+      value = Fd.encode_value value, encoder_type
       key = Fd.tuple_pack name, idx
       Fd.db.transact { |tr| tr.set key, value }
     end

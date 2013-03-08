@@ -1,5 +1,9 @@
+lib = File.expand_path File.dirname(__FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
 require 'foundational/version'
 require 'foundational/connection'
+require 'foundational/conversion'
 require 'msgpack'
 
 module Foundational
@@ -40,18 +44,6 @@ module Foundational
     new_name[-1] += "\x00"
     Fd.tuple_pack new_name
   end
-
-  def decode_value(value)
-    MessagePack.unpack value[keyspace.size..-1]
-  end
-
-  alias :dec :decode_value
-
-  def encode_value(value)
-    "\x01" + MessagePack.pack(value)
-  end
-
-  alias :enc :encode_value
 
 end
 

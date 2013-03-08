@@ -128,4 +128,15 @@ describe Foundational::Array do
     it('hash with symbols') { subject[8].should_not == values[8] } # MsgPack does not encode symbols
   end
 
+  describe 'options' do
+    it 'should respect encoder_type selected' do
+      instance = klass.new 'test_option_set_array', converter_type: :yaml
+      instance.converter_type.should == :yaml
+    end
+    it 'should respect encoder_type selected' do
+      instance = klass.new 'test_option_not_set_array'
+      instance.converter_type.should == Fd.converter_type
+    end
+  end
+
 end
