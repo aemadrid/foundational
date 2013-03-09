@@ -18,7 +18,7 @@ module Foundational
   alias :tp :tuple_pack
 
   def tuple_unpack(key)
-    FDB::Tuple.unpack(key)[1..-1]
+    FDB::Tuple.unpack(key)[keyspace.size..-1]
   end
 
   alias :tu :tuple_unpack
@@ -32,5 +32,23 @@ module Foundational
     new_name[-1] = new_name.to_s + "\x00"
     Fd.tuple_pack new_name
   end
+
+  def get_range_for(name, tr = nil)
+    if tr
+      yield tr.get_range first_key(name), last_key(name)
+    else
+      Fd.transaction do |tr|
+        yield tr.get_range first_key(name), last_key(name)
+      end
+    end
+  end
+
+  def transaction
+    Fd.db.transact do |tr|
+      yield tr
+    end
+  end
+
+  alias :tr :transaction
 
 end

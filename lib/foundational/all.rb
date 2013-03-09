@@ -1,4 +1,5 @@
-require_relative '../../lib/foundational'
+require 'foundational'
 
-require_relative '../../lib/foundational/array'
-require_relative '../../lib/foundational/hash'
+require 'foundational/array'
+require 'foundational/hash'
+require 'foundational/counter'
