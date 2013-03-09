@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-require_relative '../../lib/foundational'
+require 'foundational'
 
 module Foundational
 
