@@ -13,6 +13,6 @@ begin
       MessagePack.pack value
     end
   end
-rescue LoadErrot
+rescue LoadError
   puts "[Foundational] No MessagePack encoding support ..."
 end

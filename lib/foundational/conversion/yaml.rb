@@ -14,6 +14,6 @@ begin
     end
 
   end
-rescue LoadErrot
+rescue LoadError
   puts "[Foundational] No YAML encoding support ..."
 end
